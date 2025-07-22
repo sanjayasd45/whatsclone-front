@@ -4,11 +4,10 @@ import './ChatArea.css'
 import { IoStarOutline, IoSettingsOutline,IoCallOutline } from "react-icons/io5";
 import { BsArchive, BsChatLeftDots  } from "react-icons/bs";
 import pic from '../../assets/imgs/pic.png'
-import meta from '../../assets/imgs/meta.png'
 import { HiOutlineBars3 } from "react-icons/hi2";
 import { TbCircleDashedPlus } from "react-icons/tb";
 import { useState } from 'react';
-import Profile from '../../models/profile/Profile';
+// import Profile from '../../models/profile/Profile';
 
 
 
@@ -37,7 +36,7 @@ export default function ChatArea() {
           <p><IoSettingsOutline/></p>
           <div>
             <img src={pic}></img>
-            <div className='pro'><Profile/></div>
+            {/* <div className='pro'><Profile/></div> */}
           </div>
         </div>
       </div>
