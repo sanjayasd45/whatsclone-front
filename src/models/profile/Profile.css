@@ -1,0 +1,5 @@
+.profile{
+    display: flex;
+    padding: 1rem;
+    background-color: var(--color-gray1);
+}

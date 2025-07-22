@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+:root {
+  --text-white : white;
+  --text-color-muted : rgba(223, 223, 223, 0.678);
+  --text-color-x-muted : rgba(105, 105, 105, 0.678);
+  --ui-base : #202020;
+  --ui-2 : #2C2C2C;
+  --text-color-green : #1daa61;
+  --color-gray1 : #383838;
+  --color-gray2 : #454545;
+  --color-gray3 : #5E5E5E;
+
+
+}
+*,
+*::before,
+*::after{
+  margin: 0;
+  padding: 0;
+  scrollbar-color: white;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  list-style: none;
+  border: 0;
+  outline: 0;
+}
+/* Customize the width and height of the scrollbar */
+::-webkit-scrollbar {
+  width: 0px;
+  /* height: 12px; */
+}
+
+/* Customize the scrollbar track (background) */
+/* ::-webkit-scrollbar-track {
+  background: #572626;
+  border-radius: 10px;
+} */
+
+/* Customize the scrollbar thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+  background: #C53E08;
+  border-radius: 10px;
+}
+
+/* Customize the scrollbar thumb on hover */
+/* ::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+} */
+
+body {
+  min-height: 100vh;
+  overflow: hidden;
+  width: 100%;
+  background: var(--ui-base);
+  color: var(--text-white);
+  font-family: "Poppins", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5{
+  font-weight: 500;
+}
+
+
+
+.btn{
+
+}

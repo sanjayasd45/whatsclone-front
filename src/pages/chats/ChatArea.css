@@ -1,0 +1,135 @@
+#chat-area {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    justify-content: flex-end;
+    align-items: flex-end;
+    z-index: -2;
+}
+.chat-area-content{
+    display: flex;       
+    width: calc(100% - 3rem);
+    height: calc(100vh - 2.7rem);
+    background-color: var(--ui-2);
+    place-content: left;
+    border-top-left-radius: 0.5rem;
+    z-index: 1;
+}
+#chat-area .v-line{
+    height: var(100vh - 2.7rem);
+    width: 1px;
+    background-color: var(--ui-base);
+}
+.chat-area-left{
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100vh;
+    transition: width 0.5s ease; 
+}
+.chat-area-left div{
+    margin-left: 0.3rem;
+}
+
+.chat-area-left-active{
+    width: 12rem;
+    background-color: var(--ui-2);
+    border: 1px solid var(--color-gray1);
+    z-index: 2;
+    border-top-right-radius: 0.5rem ;
+    border-bottom-right-radius: 0.5rem;
+}
+@keyframes newa {
+    from{
+        width: 3rem;
+    }
+    to{
+        width: 10rem;
+    }
+}
+.chat-area-left-top{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 4.3rem;
+    font-size: 0.8rem;
+    gap: 1rem;
+    width: calc(100% - 0.6rem);
+    z-index: 1;
+}
+.chat-area-left-top  p {
+    width: 100%;
+}
+.chat-area-left-top  p  span {
+    display: flex;
+    margin-left: 1rem;
+    font-size: 0.8rem;
+}
+.chat-area-left-top  p:nth-child(3){
+    font-size: 1.2rem;
+}
+.chat-area-left-top  p:nth-child(4){
+    font-size: 1.5rem;
+}
+
+.chat-area-meta-circle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.3rem 0.4rem;
+    border-radius: 0.3rem;
+    gap: 1rem;
+}
+.chat-area-meta-circle:hover{
+    background-color: var(--color-gray1);
+
+
+}
+.chat-area-h-live{
+    height: 1px;
+    /* width: calc(100% - 00.2rem); */
+    width: 1.8rem;
+    background-color: var(--color-gray1);
+}
+.chat-area-meta-circle img{
+    width: 1.6rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat-area-left-bottom{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+.chat-area-left-bottom p , .chat-area-left-top p{
+    font-size: 1.2rem;
+    border-radius: 0.3rem;
+    display: flex;
+    place-items: center;
+    padding: 0.5rem;
+
+}
+.chat-area-left-bottom p:hover , .chat-area-left-top p:hover{
+    background-color: var(--color-gray1);
+}
+
+.chat-area-left-bottom div img{
+    width: 1.5rem;
+    border-radius: 50%;
+}
+.pro{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
