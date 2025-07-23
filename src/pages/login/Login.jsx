@@ -7,7 +7,7 @@ import { login } from '../../APIs/auth.apis';
 export default function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: '',
+    number: '',
     password: '',
   });
 
@@ -23,7 +23,7 @@ export default function Login() {
     e.preventDefault();
     console.log('Form data:', formData);
     setFormData({
-      username: '',
+      number: '',
       password: '',
     })
     console.log("+++++",formData);
@@ -46,12 +46,12 @@ return (
             <form onSubmit={handleSubmit}>
               <h1>Log In To Chat</h1>
               <div >
-                <label htmlFor="username">Username</label>
+                <label htmlFor="username">number</label>
                 <input
                   type="text"
-                  id="username"
-                  name="username"
-                  placeholder='Enter Username'
+                  id="number"
+                  name="number"
+                  placeholder='Enter number'
                   required="true"
                   value={formData.username}
                   onChange={handleChange}
