@@ -7,6 +7,7 @@ import pic from '../../assets/imgs/pic.png'
 import { HiOutlineBars3 } from "react-icons/hi2";
 import { TbCircleDashedPlus } from "react-icons/tb";
 import { useState } from 'react';
+import ChatHome from '../../components/chatHome/ChatHome';
 // import Profile from '../../models/profile/Profile';
 
 
@@ -23,8 +24,8 @@ export default function ChatArea() {
           <p><BsChatLeftDots/> <span>Chats</span></p>
           <p><IoCallOutline/> <span>Calls</span></p>
           <p><TbCircleDashedPlus/> <span>Status</span></p>
-          {/* <div className='chat-area-h-live'></div>
-          <div className='chat-area-meta-circle'>
+          <div className='chat-area-h-live'></div>
+          {/* <div className='chat-area-meta-circle'>
             <img src={meta}></img>
             <span>AI</span>
           </div> */}
@@ -43,7 +44,8 @@ export default function ChatArea() {
       <div className='chat-area-content'>
         <SidebarChats/>
         <div className='v-line'></div>
-        <LiveChat/>
+        <ChatHome/>
+        {/* <LiveChat/> */}
       </div>
     </div>
   )

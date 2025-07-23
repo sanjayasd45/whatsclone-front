@@ -4,14 +4,35 @@
     width: 100%;
     align-items: center;
     justify-content: center;
+    /* justify-content: last baseline; */
     flex-direction: column;
+
+
 }
 .chat-home div{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
+    padding: 2rem;
 }
 .chat-home div img{
-    width: 20rem;
+    width: 5.5rem;
+}
+
+.chat-home div h1{
+    font-size: 1.4rem;
+    color: var(--text-2);
+    margin: 0.5rem 0;
+    font-weight: 300;
+}
+.chat-home div p{
+    font-size: 1rem;
+    color: #a3a0a0;
+    margin: 0.2rem 0;
+    line-height: 95%;
+}
+.chat-home p{
+    /* margin-top: 80%; */
 }

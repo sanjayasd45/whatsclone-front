@@ -1,8 +1,11 @@
 import './Signup.css'
 import logo from '../../assets/imgs/logo.png'
 import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import { signup,  } from '../../APIs/auth.apis';
 
 export default function Signup() {
+  const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name : '',
         username: '',
@@ -28,10 +31,10 @@ export default function Signup() {
           password: '',
         })
         console.log("+++++",formData);
-        // const response = await axios.post('http://localhost:3000/user/singup', formData)
-        // console.log(response);
+        const response  = await signup(formData)
+        console.log("Response from signup:", response);
         // localStorage.setItem("userData", JSON.stringify(response))
-        // navigate('/app/welcome')
+        navigate('/app/welcome')
       };
 
   return (
@@ -95,7 +98,7 @@ export default function Signup() {
                     />
                   </div>
                   <div className='switch-link'>
-                    <p>Already have an account <a>Login</a> </p>
+                    <p>Already have an account <Link to={"/login"}>Login</Link> </p>
                   </div>
                   <button type="submit">Sign Up</button>
                 </form>

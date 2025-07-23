@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import './Login.css'
 import logo from '../../assets/imgs/logo.png'
+import { Link, useNavigate, } from 'react-router-dom';
+import { login } from '../../APIs/auth.apis';
 
 export default function Login() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -24,10 +27,10 @@ export default function Login() {
       password: '',
     })
     console.log("+++++",formData);
-    // const response = await axios.post('http://localhost:3000/user/singup', formData)
-    // console.log(response);
+    const response  = await login(formData)
+    console.log(response);
     // localStorage.setItem("userData", JSON.stringify(response))
-    // navigate('/app/welcome')
+    navigate('/app/welcome')
   };
 
 return (
@@ -67,7 +70,7 @@ return (
                 />
               </div>
               <div className='switch-link'>
-                <p>{`Don't have an account `}<a>Sign Up</a> </p>
+                <p>{`Don't have an account `}<Link to={"/signup"}>Sign Up</Link> </p>
               </div>
               <button type="submit">Sign Up</button>
             </form>
