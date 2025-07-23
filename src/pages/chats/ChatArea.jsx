@@ -8,6 +8,7 @@ import { HiOutlineBars3 } from "react-icons/hi2";
 import { TbCircleDashedPlus } from "react-icons/tb";
 import { useState } from 'react';
 import ChatHome from '../../components/chatHome/ChatHome';
+import { useParams } from 'react-router-dom';
 // import Profile from '../../models/profile/Profile';
 
 
@@ -16,6 +17,7 @@ import ChatHome from '../../components/chatHome/ChatHome';
 
 export default function ChatArea() {
   const [sidebar, setSidebar] = useState(false)
+    const { id } = useParams();
   return (
     <div id='chat-area'>
       <div className={`chat-area-left ${sidebar ?  "chat-area-left-active" : ""} ` }>
@@ -44,7 +46,9 @@ export default function ChatArea() {
       <div className='chat-area-content'>
         <SidebarChats/>
         <div className='v-line'></div>
-        <ChatHome/>
+        {
+          id ? <LiveChat chatId={id} /> :  <ChatHome/>
+        }
         {/* <LiveChat/> */}
       </div>
     </div>

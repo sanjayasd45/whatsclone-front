@@ -3,7 +3,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export const signup = async (formData) => {
     try{
-        const response = await axios.post(`${API_URL}/user/signup`, formData);
+        const response = await axios.post(`${API_URL}/signup`, formData);
         return response.data;
     }catch (error) {
         console.error('Error during signup:', error);
@@ -12,7 +12,7 @@ export const signup = async (formData) => {
 }
 export const login = async (formData) => {
     try{
-        const response = await axios.post(`${API_URL}/user/login`, formData);
+        const response = await axios.post(`${API_URL}/login`, formData);
         return response.data;
     }catch (error) {
         console.error('Error during signup:', error);

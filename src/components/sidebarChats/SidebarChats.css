@@ -88,6 +88,10 @@
     border-radius: 0.3rem;    
     padding: 0.5rem 1rem;
 }
+.sidebar-chats a{
+    text-decoration: none;
+    color: inherit;
+}
 .sidebar-chat:hover{
     background-color: var(--color-gray1);
 }

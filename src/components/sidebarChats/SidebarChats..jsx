@@ -5,12 +5,19 @@ import { VscSearch } from "react-icons/vsc";
 import { RxCross2 } from "react-icons/rx";
 import pic from '../../assets/imgs/pic.png'
 import { useState } from 'react';
+import { Link } from 'react-router-dom'
 
 
 
 
 
 export default function SidebarChats() {
+  const data = [
+    { id: 1, name: "Sanjay Kumar", lastMessage: "Tb l size .....", lastSeen: "Yesterday" }, 
+    { id: 2, name: "Nikhil Verma", lastMessage: "Tb l size .....", lastSeen: "Yesterday" },
+    { id: 3, name: "Sakshi Verma", lastMessage: "Tb l size .....", lastSeen: "Yesterday" },
+    { id: 4, name: "Komal Singh", lastMessage: "Tb l size .....", lastSeen: "Yesterday" },
+  ]
   const [searchValue, setSearchValue] = useState("")
   const handleChange = (e) => {
     // e.preventDefault()
@@ -35,59 +42,25 @@ export default function SidebarChats() {
         </form>
       </div>
       <div className="sidebar-chats">
-        <div className='sidebar-chat'>
-          <img src={pic}></img>
-          <div className="sidebar-chat-content">
-            <div className="sidebar-chat-content-top">
-              <p>Sanjay Kumar</p>
-              <p>Yesterday</p>
+        {
+          data.filter(chat => chat.name.toLowerCase().includes(searchValue.toLowerCase())).map(chat => (
+            <Link to={`/chats/${chat.id}`} className='sidebar-chat-link' key={chat.id}>
+            <div className='sidebar-chat' key={chat.id}>
+              <img src={pic} alt="profile"></img>
+              <div className="sidebar-chat-content">
+                <div className="sidebar-chat-content-top">
+                  <p>{chat.name}</p>
+                  <p>{chat.lastSeen}</p>
+                </div>
+                <div className="sidebar-chat-content-bottom">
+                  <p>{chat.lastMessage}</p>
+                </div>
+              </div>
             </div>
-            <div className="sidebar-chat-content-bottom">
-              <p>Tb l size .....</p>
-              {/* <p>12:10 PM</p> */}
-            </div>
-          </div>
-        </div>
-        <div className='sidebar-chat'>
-          <img src={pic}></img>
-          <div className="sidebar-chat-content">
-            <div className="sidebar-chat-content-top">
-              <p>Sanjay Kumar</p>
-              <p>Yesterday</p>
-            </div>
-            <div className="sidebar-chat-content-bottom">
-              <p>Tb l size .....</p>
-              {/* <p>12:10 PM</p> */}
-            </div>
-          </div>
-        </div>
-        <div className='sidebar-chat'>
-          <img src={pic}></img>
-          <div className="sidebar-chat-content">
-            <div className="sidebar-chat-content-top">
-              <p>Sanjay Kumar</p>
-              <p>Yesterday</p>
-            </div>
-            <div className="sidebar-chat-content-bottom">
-              <p>Tb l size .....</p>
-              {/* <p>12:10 PM</p> */}
-            </div>
-          </div>
-        </div>
-        <div className='sidebar-chat'>
-          <img src={pic}></img>
-          <div className="sidebar-chat-content">
-            <div className="sidebar-chat-content-top">
-              <p>Sanjay Kumar</p>
-              <p>Yesterday</p>
-            </div>
-            <div className="sidebar-chat-content-bottom">
-              <p>Tb l size .....</p>
-              {/* <p>12:10 PM</p> */}
-            </div>
-          </div>
-        </div>
-      
+            
+            </Link>
+          ))
+        }
       </div>
     </div>
   )
