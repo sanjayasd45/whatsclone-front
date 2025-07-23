@@ -8,7 +8,7 @@ export default function Signup() {
   const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name : '',
-        username: '',
+        number: '',
         email: '',
         password: '',
       });
@@ -26,7 +26,7 @@ export default function Signup() {
         console.log('Form data:', formData);
         setFormData({
           name:'',
-          username: '',
+          number: '',
           email: '',
           password: '',
         })
@@ -62,12 +62,12 @@ export default function Signup() {
                     />
                   </div>
                   <div >
-                    <label htmlFor="username">Username</label>
+                    <label htmlFor="number">Username</label>
                     <input
                       type="text"
-                      id="username"
-                      name="username"
-                      placeholder='Enter Username'
+                      id="number"
+                      name="number"
+                      placeholder='Enter number'
                       required="true"
                       value={formData.username}
                       onChange={handleChange}
