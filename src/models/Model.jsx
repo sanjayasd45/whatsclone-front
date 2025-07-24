@@ -5,6 +5,7 @@ import { getUser } from '../APIs/user.apis';
 import { addChat } from '../APIs/chats.apis';
 import { useNavigate } from 'react-router-dom';
 export const NewContact = ({setNewContact}) => {
+
     const navigate = useNavigate();
     const [user, setUser] = useState({});
     const currentUser = JSON.parse(localStorage.getItem("userData"));
@@ -39,6 +40,7 @@ export const NewContact = ({setNewContact}) => {
         try{
             const response = await addChat({members: {number, currentUser: currentUser.phone_number}});
             console.log('Chat started:', response);
+            localStorage.setItem("receiverNumber", JSON.stringify(response.number));
             navigate(`/chats/${response.chat_id}`);
             setNewContact(false);
         }catch(error){
