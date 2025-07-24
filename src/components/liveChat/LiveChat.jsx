@@ -13,6 +13,15 @@ import { useState } from 'react';
 
 export default function LiveChat() {
   const [msgValue, setMsgValue] = useState("")
+  const handleMessageSubmit = (e) => {
+    e.preventDefault();
+    if (msgValue.trim() === "") {
+      return;
+    }
+    // Handle message sending logic here
+    console.log("Message sent:", msgValue);
+    setMsgValue("");
+  };
   return (
     <div className='live-chat'>
       <div className="live-chat-top">
@@ -38,11 +47,11 @@ export default function LiveChat() {
       <div className="live-chat-sender">
         <p><PiSmiley/></p>
         <p><PiPaperclipBold /></p>
-        <form action="">
+        <form onSubmit={handleMessageSubmit}>
           <input value={msgValue} onChange={(e) => setMsgValue(e.target.value)} placeholder='Type a message'></input>
         </form>
         {
-          msgValue ? <p><LuSendHorizonal /></p> :  <p><LuMic/></p>
+          msgValue ? <p onClick={handleMessageSubmit}><LuSendHorizonal /></p> :  <p><LuMic/></p>
         }
       </div>
     </div>

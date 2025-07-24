@@ -3,7 +3,9 @@ import './Model.css'
 import { toast } from 'react-toastify';
 import { getUser } from '../APIs/user.apis';
 import { addChat } from '../APIs/chats.apis';
+import { useNavigate } from 'react-router-dom';
 export const NewContact = ({setNewContact}) => {
+    const navigate = useNavigate();
     const [user, setUser] = useState({});
     const currentUser = JSON.parse(localStorage.getItem("userData"));
     const [number, setNumber] = useState("");
@@ -18,8 +20,11 @@ export const NewContact = ({setNewContact}) => {
         }
         try{
             const user = await getUser({phone_number: number});
-            console.log('user found:', user);
-            setUser(user);
+            console.log('user found:', user?.user);
+            setUser(user?.user);
+            if (user?.user) {
+                toast.success('User found, please check to start chat.', { theme: 'colored' });
+            }
             
         }catch(error){
             console.error('Error finding user:', error);
@@ -34,7 +39,8 @@ export const NewContact = ({setNewContact}) => {
         try{
             const response = await addChat({members: {number, currentUser: currentUser.phone_number}});
             console.log('Chat started:', response);
-            
+            navigate(`/chats/${response._id}`);
+            setNewContact(false);
         }catch(error){
             console.error('Error Adding Chat:', error);
             toast.error('Error Adding Chat, please try again.', { theme: 'colored' });
