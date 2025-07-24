@@ -26,7 +26,7 @@ export default function Login() {
     try{
       const response  = await login(formData)
       console.log("+++++",formData);
-      console.log(response);
+
       localStorage.setItem("userData", JSON.stringify(response))
       toast.success('Login successful!', { theme: 'colored' });
       navigate('/chats')

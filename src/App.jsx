@@ -3,12 +3,21 @@ import './App.css'
 import ChatArea from './pages/chats/ChatArea'
 import Login from './pages/login/Login'
 import Signup from './pages/signup/Signup'
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { BrowserRouter as Router,  Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router,  Routes, Route,useNavigate } from "react-router-dom";
+import {  useEffect } from 'react';
 
 function App() {
   const value = localStorage.getItem("userData");
+  const navigate = useNavigate();
+  const parsedValue = value ? JSON.parse(value) : null;
+  useEffect(() => {
+    if(parsedValue && parsedValue.phone_number){
+      toast.success('Welcome back!', { theme: 'colored' });
+      navigate('/chats');
+    }
+  },[])
   // if (!value) {
   //   return <Login />;
   // }else{
