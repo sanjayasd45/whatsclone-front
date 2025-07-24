@@ -3,9 +3,21 @@ import './App.css'
 import ChatArea from './pages/chats/ChatArea'
 import Login from './pages/login/Login'
 import Signup from './pages/signup/Signup'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter as Router,  Routes, Route } from "react-router-dom";
 
 function App() {
+  const value = localStorage.getItem("userData");
+  // if (!value) {
+  //   return <Login />;
+  // }else{
+  //   const userData = JSON.parse(value);
+  //   if (!userData || !userData._id) {
+  //     return <Login />;
+  //   }
+  // }
+
 
   return (
     <>
@@ -20,6 +32,7 @@ function App() {
     {/* <Login/> */}
     {/* <ChatArea/> */}
     {/* <Signup/> */}
+     <ToastContainer /> {/* <--- Required */}
     </>
   )
 }
