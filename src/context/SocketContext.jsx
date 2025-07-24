@@ -1,24 +1,31 @@
-import { createContext, useContext, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
+import { createContext, useContext, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 
 const SocketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
   const socketRef = useRef(null);
+  const value = localStorage.getItem("userData");
+
 
   useEffect(() => {
-    socketRef.current = new WebSocket('ws://localhost:8000/ws/chat');
+    socketRef.current = new WebSocket("ws://localhost:8000/ws/chat");
 
     socketRef.current.onopen = () => {
-      console.log('Connected to WebSocket');
+      console.log("Connected to WebSocket");
+      const payload = {
+        type: "connect",
+        user: JSON.parse(value),
+      };
+      socketRef.current.send(JSON.stringify(payload));
     };
 
     socketRef.current.onclose = () => {
-      console.log('WebSocket disconnected');
+      console.log("WebSocket disconnected");
     };
 
     socketRef.current.onerror = (err) => {
-      console.error('WebSocket error:', err);
+      console.error("WebSocket error:", err);
     };
 
     return () => {
