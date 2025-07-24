@@ -1,67 +1,116 @@
-import './SidebarChats.css'
+import "./SidebarChats.css";
 import { BiEdit } from "react-icons/bi";
 import { IoFilterSharp } from "react-icons/io5";
 import { VscSearch } from "react-icons/vsc";
 import { RxCross2 } from "react-icons/rx";
-import pic from '../../assets/imgs/pic.png'
-import { useState } from 'react';
-import { Link } from 'react-router-dom'
-
-
-
-
+import pic from "../../assets/imgs/pic.png";
+import {  useState } from "react";
+import { Link } from "react-router-dom";
+import { Dropdown, FilterOptions, NewChatOptions,  } from "../Components";
 
 export default function SidebarChats() {
   const data = [
-    { id: 1, name: "Sanjay Kumar", lastMessage: "Tb l size .....", lastSeen: "Yesterday" }, 
-    { id: 2, name: "Nikhil Verma", lastMessage: "Tb l size .....", lastSeen: "Yesterday" },
-    { id: 3, name: "Sakshi Verma", lastMessage: "Tb l size .....", lastSeen: "Yesterday" },
-    { id: 4, name: "Komal Singh", lastMessage: "Tb l size .....", lastSeen: "Yesterday" },
-  ]
-  const [searchValue, setSearchValue] = useState("")
+    {
+      id: 1,
+      name: "Sanjay Kumar",
+      lastMessage: "Tb l size .....",
+      lastSeen: "Yesterday",
+    },
+    {
+      id: 2,
+      name: "Nikhil Verma",
+      lastMessage: "Tb l size .....",
+      lastSeen: "Yesterday",
+    },
+    {
+      id: 3,
+      name: "Sakshi Verma",
+      lastMessage: "Tb l size .....",
+      lastSeen: "Yesterday",
+    },
+    {
+      id: 4,
+      name: "Komal Singh",
+      lastMessage: "Tb l size .....",
+      lastSeen: "Yesterday",
+    },
+  ];
+  const [filterIsOpen, setFilterIsOpen] = useState(false);
+  const [chatOptions, setChatOptions] = useState(false);
+
+  const [searchValue, setSearchValue] = useState("");
   const handleChange = (e) => {
     // e.preventDefault()
-    setSearchValue(e.target.value)
-  }
+    setSearchValue(e.target.value);
+  };
   return (
-    <div className='sidebar-content'>
+    <div className="sidebar-content">
       <div className="sidebar-top">
         <h3>Chats</h3>
-        <div>
-          <p><BiEdit/></p>
-          <p><IoFilterSharp/></p>
+        <div className="icon-wrapper">
+          <p  className={`${chatOptions && "active"}`}>
+            <BiEdit onClick={() => setChatOptions(true)} />
+            {chatOptions && (
+              <Dropdown setOverlay={setChatOptions}>
+                <NewChatOptions />
+              </Dropdown>
+            )}
+          </p>
+          <p  className={`${filterIsOpen && "active"}`}>
+            <IoFilterSharp onClick={() => setFilterIsOpen(true)} />
+            {filterIsOpen && (
+              <Dropdown setOverlay={setFilterIsOpen}>
+                <FilterOptions/>
+              </Dropdown>
+            )}
+          </p>
         </div>
       </div>
       <div className="sidebar-search">
         <form>
-          <p><VscSearch/></p>
-          <input onChange={handleChange} placeholder='Search or Start a new chat' value={searchValue}></input>
-          {
-            searchValue ? <p onClick={() => setSearchValue("")}><RxCross2/></p> : ""
-          }
+          <p>
+            <VscSearch />
+          </p>
+          <input
+            onChange={handleChange}
+            placeholder="Search or Start a new chat"
+            value={searchValue}
+          ></input>
+          {searchValue ? (
+            <p onClick={() => setSearchValue("")}>
+              <RxCross2 />
+            </p>
+          ) : (
+            ""
+          )}
         </form>
       </div>
       <div className="sidebar-chats">
-        {
-          data.filter(chat => chat.name.toLowerCase().includes(searchValue.toLowerCase())).map(chat => (
-            <Link to={`/chats/${chat.id}`} className='sidebar-chat-link' key={chat.id}>
-            <div className='sidebar-chat' key={chat.id}>
-              <img src={pic} alt="profile"></img>
-              <div className="sidebar-chat-content">
-                <div className="sidebar-chat-content-top">
-                  <p>{chat.name}</p>
-                  <p>{chat.lastSeen}</p>
-                </div>
-                <div className="sidebar-chat-content-bottom">
-                  <p>{chat.lastMessage}</p>
+        {data
+          .filter((chat) =>
+            chat.name.toLowerCase().includes(searchValue.toLowerCase())
+          )
+          .map((chat) => (
+            <Link
+              to={`/chats/${chat.id}`}
+              className="sidebar-chat-link"
+              key={chat.id}
+            >
+              <div className="sidebar-chat" key={chat.id}>
+                <img src={pic} alt="profile"></img>
+                <div className="sidebar-chat-content">
+                  <div className="sidebar-chat-content-top">
+                    <p>{chat.name}</p>
+                    <p>{chat.lastSeen}</p>
+                  </div>
+                  <div className="sidebar-chat-content-bottom">
+                    <p>{chat.lastMessage}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            
             </Link>
-          ))
-        }
+          ))}
       </div>
     </div>
-  )
+  );
 }

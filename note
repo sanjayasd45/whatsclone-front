@@ -3,3 +3,11 @@ python -m venv venv
 venv\Scripts\activate
 pip install requests
 deactivate
+
+
+
+number
+name
+lastseeen
+password
+DP
