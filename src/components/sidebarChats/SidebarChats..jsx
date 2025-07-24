@@ -52,7 +52,7 @@ export default function SidebarChats() {
             <BiEdit onClick={() => setChatOptions(true)} />
             {chatOptions && (
               <Dropdown setOverlay={setChatOptions}>
-                <NewChatOptions />
+                <NewChatOptions setOverlay={setChatOptions} />
               </Dropdown>
             )}
           </p>

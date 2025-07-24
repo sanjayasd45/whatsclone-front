@@ -1,28 +1,25 @@
+// SocketContext.js
 import { createContext, useContext, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-
 
 const SocketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
   const socketRef = useRef(null);
-  const value = localStorage.getItem("userData");
-  const parsedValue = value ? JSON.parse(value) : null;
-  // console.log(parsedValue);
-  
 
   useEffect(() => {
-    if(parsedValue?.phone_number){
-      socketRef.current = new WebSocket("ws://localhost:8000/ws/chat");
-    }else{
-      return;
-    }
+    const value = localStorage.getItem("userData");
+    const parsedValue = value ? JSON.parse(value) : null;
+
+    if (!parsedValue?.phone_number) return;
+
+    socketRef.current = new WebSocket("ws://localhost:8000/ws/chat");
 
     socketRef.current.onopen = () => {
       console.log("Connected to WebSocket");
       const payload = {
         type: "connect",
-        user : parsedValue.phone_number,
+        user: parsedValue.phone_number,
       };
       socketRef.current.send(JSON.stringify(payload));
     };
@@ -36,12 +33,12 @@ export const SocketProvider = ({ children }) => {
     };
 
     return () => {
-      socketRef.current.close();
+      socketRef.current?.close();
     };
   }, []);
 
   return (
-    <SocketContext.Provider value={socketRef.current}>
+    <SocketContext.Provider value={socketRef}>
       {children}
     </SocketContext.Provider>
   );
