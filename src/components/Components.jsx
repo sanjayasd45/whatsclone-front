@@ -6,6 +6,8 @@ import { AiOutlineUserDelete } from "react-icons/ai";
 import { LuPencil } from "react-icons/lu";
 import { VscSearch } from "react-icons/vsc";
 import { RxCross2 } from "react-icons/rx";
+import { useState } from "react";
+import { NewContact } from "../models/Model";
 
 export const Dropdown = ({ setOverlay, children }) => {
   return (
@@ -54,31 +56,66 @@ export const FilterOptions = () => {
 };
 
 export const NewChatOptions = () => {
+  const [newContact, setNewContact] = useState(false);
   return (
     <div className="new-chat-options">
       <h2>New chat</h2>
-      <SearchBar/>
+      <SearchBar />
       <div>
-        <div><p>New contect</p></div>
-        <div><p>New Group</p></div>
-        <div><div><p>Sanjay Kumar</p> <p>Message Your Self</p></div></div>
+        <div>
+          <p onClick={() => setNewContact(!newContact)}>New contect</p>
+        </div>
+        <div>
+          <p>New Group</p>
+        </div>
+        <div>
+          <div>
+            <p>Sanjay Kumar</p> <p>Message Your Self</p>
+          </div>
+        </div>
       </div>
       <p>Frequintly connected</p>
       <div>
-        <div><p>Ravi Kumar</p></div>
-        <div><p>Priya Singh</p></div>
-        <div><p>Anjali Sharma</p></div>
+        <div>
+          <p>Ravi Kumar</p>
+        </div>
+        <div>
+          <p>Priya Singh</p>
+        </div>
+        <div>
+          <p>Anjali Sharma</p>
+        </div>
       </div>
       <p>All Contacts</p>
+      <div>
         <div>
-            <div><p>Komal Singh</p></div>
-            <div><p>Sakshi Verma</p></div>
-            <div><p>Nikhil Verma</p></div>
-            <div><p>Sanjay Kumar</p></div>
+          <p>Komal Singh</p>
         </div>
+        <div>
+          <p>Sakshi Verma</p>
+        </div>
+        <div>
+          <p>Nikhil Verma</p>
+        </div>
+        <div>
+          <p>Sanjay Kumar</p>
+        </div>
+      </div>
+      {newContact && <NewContact setNewContact={setNewContact}/>}
     </div>
   );
 };
+// export const NewContact = () => {
+//   return (
+//     <div className="new-chat-options">
+//       <h2>All Contact</h2>
+//       <SearchBar />
+//       <div>
+
+//       </div>
+//     </div>
+//   );
+// };
 
 export const SearchBar = ({ searchValue, setSearchValue }) => {
   const handleChange = (e) => {

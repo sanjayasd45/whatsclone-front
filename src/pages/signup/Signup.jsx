@@ -1,13 +1,21 @@
 import "./Signup.css";
 import logo from "../../assets/imgs/logo.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signup } from "../../APIs/auth.apis";
 import { toast } from "react-toastify";
 import { validateForm } from "../../helper/checks.helper";
 
 export default function Signup() {
-  const navigate = useNavigate();
+    const value = localStorage.getItem("userData");
+    const navigate = useNavigate();
+    const parsedValue = value ? JSON.parse(value) : null;
+    useEffect(() => {
+      if(parsedValue && parsedValue.phone_number){
+        toast.success('Your Are Already Loged In ', { theme: 'colored' });
+        navigate('/chats');
+      }
+    },[])
   const [formData, setFormData] = useState({
     name: "",
     number: "",
@@ -33,7 +41,7 @@ export default function Signup() {
     try {
       const response = await signup(formData);
       console.log("Response from signup:", response);
-      localStorage.setItem("userData", JSON.stringify(response));
+      localStorage.setItem("userData", JSON.stringify(response?.user));
       setFormData({
         name: "",
         number: "",

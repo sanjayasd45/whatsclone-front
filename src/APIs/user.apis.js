@@ -9,3 +9,12 @@ export const getUsers = async() => {
         throw error;
     }
 }
+export const getUser = async({phone_number}) => {
+    try {
+        const response = await axios.post(`${API_URL}/getUser`, {phone_number});
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        throw error;
+    }
+}
