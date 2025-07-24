@@ -28,6 +28,7 @@ export default function Login() {
       console.log("+++++",formData);
       console.log(response);
       localStorage.setItem("userData", JSON.stringify(response))
+      toast.success('Login successful!', { theme: 'colored' });
       navigate('/chats')
       setFormData({
         number: '',
