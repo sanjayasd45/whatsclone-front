@@ -6,8 +6,13 @@ import { PiSmiley, PiPaperclipBold } from "react-icons/pi";
 import { LuMic, LuSendHorizonal } from "react-icons/lu";
 import { useState } from "react";
 import { useSocket } from "../../context/SocketContext.jsx";
+import { useParams } from "react-router-dom";
 
 export default function LiveChat() {
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const receiverNumber = JSON.parse(localStorage.getItem("receiverNumber"));
+  const { id } = useParams();
+  const [receiver, setReceiver] = useState(null);
   const socketRef = useSocket();
   console.log("Socket:", socketRef);
   
@@ -19,9 +24,9 @@ export default function LiveChat() {
     const payload = {
       type: "message",
       content: msgValue,
-      sender : "Sanjay Kumar", 
-      receiver: "Nikhil Verma",
-      chatId: "12345",
+      sender : userData.phone_number, 
+      receiver: receiverNumber,
+      chatId: id,
       timestamp: new Date().toISOString(),
     };
 
@@ -43,7 +48,7 @@ if (socketRef?.current?.readyState === WebSocket.OPEN) {
         <div className="live-chat-top-left">
           <img src={pic}></img>
           <div>
-            <p>Sanjay Kumar</p>
+            <p>Sanjay kumar</p>
             <p>12:10 PM</p>
           </div>
         </div>
