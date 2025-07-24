@@ -1,59 +1,92 @@
-import './LiveChat.css'
-import pic from '../../assets/imgs/pic.png'
-import { IoVideocamOutline,IoCallOutline  } from "react-icons/io5";
+import "./LiveChat.css";
+import pic from "../../assets/imgs/pic.png";
+import { IoVideocamOutline, IoCallOutline } from "react-icons/io5";
 import { LiaSearchSolid } from "react-icons/lia";
 import { PiSmiley, PiPaperclipBold } from "react-icons/pi";
-import { LuMic , LuSendHorizonal } from "react-icons/lu";
-import { useState } from 'react';
-
-
-
-
-
+import { LuMic, LuSendHorizonal } from "react-icons/lu";
+import { useState } from "react";
+import { useSocket } from "../../context/SocketContext.jsx";
 
 export default function LiveChat() {
-  const [msgValue, setMsgValue] = useState("")
+  const socketRef = useSocket();
+  console.log("Socket:", socketRef);
+  
+  const [msgValue, setMsgValue] = useState("");
   const handleMessageSubmit = (e) => {
     e.preventDefault();
-    if (msgValue.trim() === "") {
-      return;
+    if (msgValue.trim() === "") return;
+
+    const payload = {
+      type: "message",
+      content: msgValue,
+      sender : "Sanjay Kumar", 
+      receiver: "Nikhil Verma",
+      chatId: "12345",
+      timestamp: new Date().toISOString(),
+    };
+
+if (socketRef?.current?.readyState === WebSocket.OPEN) {
+      socketRef.current.send(JSON.stringify({
+        type: "message",
+        content: payload,
+      }));
+      console.log("Message sent:", msgValue);
+    } else {
+      console.warn("WebSocket not connected");
     }
-    // Handle message sending logic here
-    console.log("Message sent:", msgValue);
+
     setMsgValue("");
   };
   return (
-    <div className='live-chat'>
+    <div className="live-chat">
       <div className="live-chat-top">
-        <div className='live-chat-top-left'>
+        <div className="live-chat-top-left">
           <img src={pic}></img>
-            <div>
-                <p>Sanjay Kumar</p>
-                <p>12:10 PM</p>
-            </div>
+          <div>
+            <p>Sanjay Kumar</p>
+            <p>12:10 PM</p>
+          </div>
         </div>
         <div className="live-chat-top-right">
           <div>
-            <p><IoVideocamOutline/></p>
-            <div className='live-chat-v-line'></div>
-            <p><IoCallOutline/> </p>
+            <p>
+              <IoVideocamOutline />
+            </p>
+            <div className="live-chat-v-line"></div>
+            <p>
+              <IoCallOutline />{" "}
+            </p>
           </div>
-          <p><LiaSearchSolid/></p>
+          <p>
+            <LiaSearchSolid />
+          </p>
         </div>
       </div>
-      <div className="live-chat-content">
-
-      </div>
+      <div className="live-chat-content"></div>
       <div className="live-chat-sender">
-        <p><PiSmiley/></p>
-        <p><PiPaperclipBold /></p>
+        <p>
+          <PiSmiley />
+        </p>
+        <p>
+          <PiPaperclipBold />
+        </p>
         <form onSubmit={handleMessageSubmit}>
-          <input value={msgValue} onChange={(e) => setMsgValue(e.target.value)} placeholder='Type a message'></input>
+          <input
+            value={msgValue}
+            onChange={(e) => setMsgValue(e.target.value)}
+            placeholder="Type a message"
+          ></input>
         </form>
-        {
-          msgValue ? <p onClick={handleMessageSubmit}><LuSendHorizonal /></p> :  <p><LuMic/></p>
-        }
+        {msgValue ? (
+          <p onClick={handleMessageSubmit}>
+            <LuSendHorizonal />
+          </p>
+        ) : (
+          <p>
+            <LuMic />
+          </p>
+        )}
       </div>
     </div>
-  )
+  );
 }

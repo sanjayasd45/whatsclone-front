@@ -39,7 +39,7 @@ export const NewContact = ({setNewContact}) => {
         try{
             const response = await addChat({members: {number, currentUser: currentUser.phone_number}});
             console.log('Chat started:', response);
-            navigate(`/chats/${response._id}`);
+            navigate(`/chats/${response.chat_id}`);
             setNewContact(false);
         }catch(error){
             console.error('Error Adding Chat:', error);

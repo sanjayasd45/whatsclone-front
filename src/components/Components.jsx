@@ -55,7 +55,7 @@ export const FilterOptions = () => {
   );
 };
 
-export const NewChatOptions = () => {
+export const NewChatOptions = ({setOverlay}) => {
   const [newContact, setNewContact] = useState(false);
   return (
     <div className="new-chat-options">
@@ -63,7 +63,7 @@ export const NewChatOptions = () => {
       <SearchBar />
       <div>
         <div>
-          <p onClick={() => setNewContact(!newContact)}>New contect</p>
+          <p onClick={() => (setNewContact(true))}>New contect</p>
         </div>
         <div>
           <p>New Group</p>
