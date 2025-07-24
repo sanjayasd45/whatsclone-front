@@ -1,7 +1,8 @@
-uvicorn main:app --reload
+uvicorn app.main:app --reload
 python -m venv venv
 venv\Scripts\activate
 pip install requests
+pip install -r requirements.txt
 deactivate
 
 

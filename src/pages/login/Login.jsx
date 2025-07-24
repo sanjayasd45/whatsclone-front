@@ -3,6 +3,7 @@ import './Login.css'
 import logo from '../../assets/imgs/logo.png'
 import { Link, useNavigate, } from 'react-router-dom';
 import { login } from '../../APIs/auth.apis';
+import { toast } from 'react-toastify';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -22,15 +23,20 @@ export default function Login() {
   const handleSubmit = async(e) => {
     e.preventDefault();
     console.log('Form data:', formData);
-    setFormData({
-      number: '',
-      password: '',
-    })
-    console.log("+++++",formData);
-    const response  = await login(formData)
-    console.log(response);
-    // localStorage.setItem("userData", JSON.stringify(response))
-    navigate('/app/welcome')
+    try{
+      const response  = await login(formData)
+      console.log("+++++",formData);
+      console.log(response);
+      localStorage.setItem("userData", JSON.stringify(response))
+      navigate('/chats')
+      setFormData({
+        number: '',
+        password: '',
+      })
+    }catch(error) {
+      console.log('Error during login:', error.response?.data || error.message);
+      toast.error(error.response?.data?.detail || 'Login failed, please try again.', { theme: 'colored' });
+    }
   };
 
 return (
@@ -52,7 +58,6 @@ return (
                   id="number"
                   name="number"
                   placeholder='Enter number'
-                  required="true"
                   value={formData.username}
                   onChange={handleChange}
                 />
@@ -62,7 +67,6 @@ return (
                 <input
                   type="password"
                   id="password"
-                  required="true"
                   name="password"
                   placeholder='Enter Password'
                   value={formData.password}
