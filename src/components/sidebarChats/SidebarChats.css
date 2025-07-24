@@ -127,3 +127,19 @@
     font-size: 0.8rem;
     font-weight: 200;
 }
+
+/* filler model css */
+/* Container for icons */
+.icon-group {
+  display: flex;
+  gap: 10px;
+}
+
+/* Important: relative positioning for dropdown anchor */
+.icon-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.icon-wrapper p{
+    cursor: pointer;
+}
