@@ -23,7 +23,10 @@ export const SocketProvider = ({ children }) => {
       };
       socketRef.current.send(JSON.stringify(payload));
     };
-
+    socketRef.current.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      console.log("WebSocket message received:", data);
+    };
     socketRef.current.onclose = () => {
       console.log("WebSocket disconnected");
     };
