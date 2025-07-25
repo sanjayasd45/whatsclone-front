@@ -4,7 +4,7 @@ import { IoVideocamOutline, IoCallOutline } from "react-icons/io5";
 import { LiaSearchSolid } from "react-icons/lia";
 import { PiSmiley, PiPaperclipBold } from "react-icons/pi";
 import { LuMic, LuSendHorizonal } from "react-icons/lu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSocket } from "../../context/SocketContext.jsx";
 import { useParams } from "react-router-dom";
 
@@ -15,6 +15,22 @@ export default function LiveChat() {
   const [receiver, setReceiver] = useState(null);
   const socketRef = useSocket();
   console.log("Socket:", socketRef);
+
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    if (!socketRef) return;
+
+    socketRef.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      console.log("Received data:", data);
+      if (data.type === "message") {
+        console.log("New chat message:", data);
+        setMessages((prev) => [...prev, data]);
+      }
+      console.log("Received message:", data);
+    };
+  }, [socketRef]);
   
   const [msgValue, setMsgValue] = useState("");
   const handleMessageSubmit = (e) => {
@@ -39,7 +55,6 @@ if (socketRef?.current?.readyState === WebSocket.OPEN) {
     } else {
       console.warn("WebSocket not connected");
     }
-
     setMsgValue("");
   };
   return (
