@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL; 
 
 export const signup = async (formData) => {
     try{
@@ -10,6 +10,7 @@ export const signup = async (formData) => {
         throw error;
     }
 }
+
 export const login = async (formData) => {
     try{
         const response = await axios.post(`${API_URL}/login`, formData);
