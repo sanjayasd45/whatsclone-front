@@ -14,12 +14,14 @@ export const NewContact = ({setNewContact}) => {
         setNumber(e.target.value);
     }
     const handleFind = async () => {
+        // console.log("Finding user with number:", number);
         let regex = /^[0-9]{10}$/;
         if (!regex.test(number)) {
             toast.info("Please enter a valid 10-digit number.", { theme: 'colored' });
             return;
         }
         try{
+            console.log('Finding user with number:', number);
             const user = await getUser({phone_number: number});
             console.log('user found:', user?.user);
             setUser(user?.user);
