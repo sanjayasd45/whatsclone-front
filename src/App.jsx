@@ -14,8 +14,8 @@ function App() {
   const parsedValue = value ? JSON.parse(value) : null;
   useEffect(() => {
     if(parsedValue && parsedValue.phone_number){
-      toast.success('Welcome back!', { theme: 'colored' });
-      navigate('/chats');
+      // toast.success('Welcome back!', { theme: 'colored' });
+      navigate('/login');
     }
   },[])
   // if (!value) {

@@ -10,12 +10,12 @@ export default function Signup() {
     const value = localStorage.getItem("userData");
     const navigate = useNavigate();
     const parsedValue = value ? JSON.parse(value) : null;
-    useEffect(() => {
-      if(parsedValue && parsedValue.phone_number){
-        toast.success('Your Are Already Loged In ', { theme: 'colored' });
-        navigate('/chats');
-      }
-    },[])
+    // useEffect(() => {
+    //   if(parsedValue && parsedValue.phone_number){
+    //     toast.success('Your Are Already Loged In ', { theme: 'colored' });
+    //     navigate('/chats');
+    //   }
+    // },[])
   const [formData, setFormData] = useState({
     name: "",
     number: "",
