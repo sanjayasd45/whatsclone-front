@@ -4,22 +4,44 @@ import { IoFilterSharp } from "react-icons/io5";
 import { VscSearch } from "react-icons/vsc";
 import { RxCross2 } from "react-icons/rx";
 // import pic from "../../assets/imgs/pic.png";
-import {  useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Dropdown, FilterOptions, NewChatOptions,  } from "../Components";
-import { useSelector } from "react-redux";
+import { Dropdown, FilterOptions, NewChatOptions } from "../Components";
+import { useDispatch, useSelector } from "react-redux";
 import { useFindUserById } from "../../helper/helper.calculate";
+import { recentChatsData } from "../../APIs/chats.apis";
+import { fetchRecentChats, startLoading } from "../../store/slices/recentChats.slice";
+import { toast } from "react-toastify";
 
 export default function SidebarChats() {
-  const findUserById = useFindUserById()
 
-   const user = useSelector((state) => state.newContact);
-   const recentChats = useSelector((state) => state.recentChats).data;
-   console.log(recentChats);
-   
+  const dispatch = useDispatch()
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const findUserById = useFindUserById();
 
-   console.log("user from store ", user);
-      
+  const user = useSelector((state) => state.newContact);
+
+  useEffect(() => {
+    async function fetchRecentChat() {
+      try{
+        if (userData?.phone_number) {
+          dispatch(startLoading())
+          const data =  await recentChatsData({number : userData.phone_number})
+          console.log(data);
+          
+          console.log("working");
+        }
+      }catch(error){
+        toast.error(`${error?.message ? error.message : "Unable to load Chats"}`, {theme:"colored"})
+      }
+    }
+    fetchRecentChat();
+  }, [userData]);
+  const recentChats = useSelector((state) => state.recentChats).data;
+  console.log(recentChats);
+  
+  console.log("user from store ", user);
+
   const [filterIsOpen, setFilterIsOpen] = useState(false);
   const [chatOptions, setChatOptions] = useState(false);
 
@@ -30,14 +52,14 @@ export default function SidebarChats() {
   };
 
   const handleClick = (chat_id) => {
-    findUserById(recentChats, {chat_id: chat_id})
-  }
+    findUserById(recentChats, { chat_id: chat_id });
+  };
   return (
     <div className="sidebar-content">
       <div className="sidebar-top">
         <h3>Chats</h3>
         <div className="icon-wrapper">
-          <p  className={`${chatOptions && "active"}`}>
+          <p className={`${chatOptions && "active"}`}>
             <BiEdit onClick={() => setChatOptions(true)} />
             {chatOptions && (
               <Dropdown setOverlay={setChatOptions}>
@@ -45,11 +67,11 @@ export default function SidebarChats() {
               </Dropdown>
             )}
           </p>
-          <p  className={`${filterIsOpen && "active"}`}>
+          <p className={`${filterIsOpen && "active"}`}>
             <IoFilterSharp onClick={() => setFilterIsOpen(true)} />
             {filterIsOpen && (
               <Dropdown setOverlay={setFilterIsOpen}>
-                <FilterOptions/>
+                <FilterOptions />
               </Dropdown>
             )}
           </p>

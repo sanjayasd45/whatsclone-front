@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL; 
 
 const initialState = {
   data: {
@@ -47,6 +49,22 @@ const currentChatSlice = createSlice({
     },
   },
 });
+
+// Thunk for fetching chat by ID
+export const fetchChatById = (chatId) => async (dispatch) => {
+  try {
+    dispatch(startLoading());
+
+    const response = await axios.get(`${API_URL}/getChat`,{chatId}); // update with your actual backend route
+    console.log(response.data);
+    
+    // dispatch(setChatUser(response.data));
+  } catch (error) {
+    dispatch(
+      setChatUserError(error.response?.data?.message || "Something went wrong")
+    );
+  }
+};
 
 export const {
   startLoading,

@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { useSocket } from "../../context/SocketContext.jsx";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { findUserById } from "../../store/slices/recentChats.slice.js";
 
 export default function LiveChat() {
   const { id } = useParams();

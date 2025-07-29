@@ -6,7 +6,6 @@ import { addChat } from "../APIs/chats.apis";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setNewUser } from "../store/slices/NewUser.slice";
-import { findUserById } from "../store/slices/recentChats.slice";
 import { useFindUserById } from "../helper/helper.calculate";
 export const NewContact = ({ setNewContact }) => {
   // hook
@@ -72,7 +71,9 @@ export const NewContact = ({ setNewContact }) => {
       const response = await addChat({
         members: {
           number,
-          currentUser: currentUser.phone_number,
+          currentUser: currentUser?.phone_number,
+          name : newUser?.newUser?.name,
+          profile_pic : newUser?.newUser?.profile_pic,
         },
       });
       console.log("Chat started:", response);
