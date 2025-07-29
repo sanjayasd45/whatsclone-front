@@ -3,38 +3,23 @@ import { BiEdit } from "react-icons/bi";
 import { IoFilterSharp } from "react-icons/io5";
 import { VscSearch } from "react-icons/vsc";
 import { RxCross2 } from "react-icons/rx";
-import pic from "../../assets/imgs/pic.png";
+// import pic from "../../assets/imgs/pic.png";
 import {  useState } from "react";
 import { Link } from "react-router-dom";
 import { Dropdown, FilterOptions, NewChatOptions,  } from "../Components";
+import { useSelector } from "react-redux";
+import { useFindUserById } from "../../helper/helper.calculate";
 
 export default function SidebarChats() {
-  const data = [
-    {
-      id: 1,
-      name: "Sanjay Kumar",
-      lastMessage: "Tb l size .....",
-      lastSeen: "Yesterday",
-    },
-    {
-      id: 2,
-      name: "Nikhil Verma",
-      lastMessage: "Tb l size .....",
-      lastSeen: "Yesterday",
-    },
-    {
-      id: 3,
-      name: "Sakshi Verma",
-      lastMessage: "Tb l size .....",
-      lastSeen: "Yesterday",
-    },
-    {
-      id: 4,
-      name: "Komal Singh",
-      lastMessage: "Tb l size .....",
-      lastSeen: "Yesterday",
-    },
-  ];
+  const findUserById = useFindUserById()
+
+   const user = useSelector((state) => state.newContact);
+   const recentChats = useSelector((state) => state.recentChats).data;
+   console.log(recentChats);
+   
+
+   console.log("user from store ", user);
+      
   const [filterIsOpen, setFilterIsOpen] = useState(false);
   const [chatOptions, setChatOptions] = useState(false);
 
@@ -43,6 +28,10 @@ export default function SidebarChats() {
     // e.preventDefault()
     setSearchValue(e.target.value);
   };
+
+  const handleClick = (chat_id) => {
+    findUserById(recentChats, {chat_id: chat_id})
+  }
   return (
     <div className="sidebar-content">
       <div className="sidebar-top">
@@ -86,18 +75,19 @@ export default function SidebarChats() {
         </form>
       </div>
       <div className="sidebar-chats">
-        {data
+        {recentChats
           .filter((chat) =>
             chat.name.toLowerCase().includes(searchValue.toLowerCase())
           )
           .map((chat) => (
             <Link
-              to={`/chats/${chat.id}`}
+              to={`/chats/${chat.chat_id}`}
               className="sidebar-chat-link"
-              key={chat.id}
+              key={chat.chat_id}
+              onClick={() => handleClick(chat.chat_id)}
             >
-              <div className="sidebar-chat" key={chat.id}>
-                <img src={pic} alt="profile"></img>
+              <div className="sidebar-chat" key={chat.chat_id}>
+                <img src={chat.profile_pic} alt="profile"></img>
                 <div className="sidebar-chat-content">
                   <div className="sidebar-chat-content-top">
                     <p>{chat.name}</p>

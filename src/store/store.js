@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
-import newContactUser from './slices/NewUser.slice'
+import newContactUser from './slices/NewUser.slice.js'
+import recetChatSlice from './slices/recentChats.slice.js'
 
-export const store = configureStore({
+export  const store = configureStore({
   reducer: {
     newContact: newContactUser,
+    recentChats : recetChatSlice
   },
 });

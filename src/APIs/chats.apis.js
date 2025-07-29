@@ -17,3 +17,11 @@ export const addChat = async({members}) => {
         console.error("Error fetching chats data:", err);
     }
 }
+// export const recentChatsData = await ({}) => {
+//         try{
+//         const response = await axios.post(`${API_URL}/addChat`, {members})
+//         return response.data;
+//     }catch(err){
+//         console.error("Error fetching chats data:", err);
+//     }
+// }

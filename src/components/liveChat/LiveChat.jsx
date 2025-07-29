@@ -7,30 +7,25 @@ import { LuMic, LuSendHorizonal } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import { useSocket } from "../../context/SocketContext.jsx";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { findUserById } from "../../store/slices/recentChats.slice.js";
 
 export default function LiveChat() {
-  const userData = JSON.parse(localStorage.getItem("userData"));
-  const receiverNumber = JSON.parse(localStorage.getItem("receiverNumber"));
   const { id } = useParams();
+  const dispatch = useDispatch()
+
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const newUser = useSelector((state)=> state.newContact)
+  const currentChatUser = useSelector((state) => state.recentChats.selectedUser)
+  console.log(currentChatUser);
+  
+
   const [receiver, setReceiver] = useState(null);
   const socketRef = useSocket();
   console.log("Socket:", socketRef);
 
   const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
-    if (!socketRef) return;
-
-    socketRef.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      console.log("Received data:", data);
-      if (data.type === "message") {
-        console.log("New chat message:", data);
-        setMessages((prev) => [...prev, data]);
-      }
-      console.log("Received message:", data);
-    };
-  }, [socketRef]);
   
   const [msgValue, setMsgValue] = useState("");
   const handleMessageSubmit = (e) => {
@@ -41,7 +36,7 @@ export default function LiveChat() {
       type: "message",
       content: msgValue,
       sender : userData.phone_number, 
-      receiver: receiverNumber,
+      receiver: newUser?.phone_number,
       chatId: id,
       timestamp: new Date().toISOString(),
     };
@@ -61,10 +56,10 @@ if (socketRef?.current?.readyState === WebSocket.OPEN) {
     <div className="live-chat">
       <div className="live-chat-top">
         <div className="live-chat-top-left">
-          <img src={pic}></img>
+          <img src={currentChatUser?.profile_pic}></img>
           <div>
-            <p>Sanjay kumar</p>
-            <p>12:10 PM</p>
+            <p>{currentChatUser?.name}</p>
+            <p>{currentChatUser?.lastSeen}</p>
           </div>
         </div>
         <div className="live-chat-top-right">
