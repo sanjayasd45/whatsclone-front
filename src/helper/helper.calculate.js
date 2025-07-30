@@ -4,7 +4,7 @@ export const useFindUserById = () => {
   const dispatch = useDispatch();
 
   const findUserById = (userList, targetUser) => {
-    const user = userList.find((u) => u.chat_id === targetUser.chat_id);
+    const user = userList?.find((u) => u.chat_id === targetUser.chat_id);
 
     if (!user) {
       dispatch(addChat(targetUser));

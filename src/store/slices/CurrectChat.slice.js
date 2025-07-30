@@ -1,37 +1,45 @@
-import { createSlice } from "@reduxjs/toolkit";
+// features/currentChat/currentChatSlice.js
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-const API_URL = import.meta.env.VITE_API_URL; 
+const profile_pic = "https://res.cloudinary.com/expensetracker45/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1753379224/ChatGPT_Image_Jul_24_2025_11_14_00_PM_dbbhzd.png";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
+// 🔁 Async thunk using createAsyncThunk
+export const fetchChatById = createAsyncThunk(
+  "currentChat/fetchChatById",
+  async (chatId, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${API_URL}/getChat`, {chat_id : chatId }); // Use POST and pass chatId in body
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data?.message || "Something went wrong"
+      );
+    }
+  }
+);
+
+
+// Initial State
 const initialState = {
   data: {
     members: [],
     is_group_chat: false,
-    group_name: "",
-    group_profile: "",
-    latest_message: "",
+    name: "",
+    profile_pic: "",
     messages: [],
+    lastSeen : "Yesterday"
   },
   loading: false,
   error: null,
 };
 
+// Slice
 const currentChatSlice = createSlice({
   name: "currentChat",
   initialState,
   reducers: {
-    startLoading: (state) => {
-      state.loading = true;
-      state.error = null;
-    },
-    setChatUser: (state, action) => {
-      state.data = action.payload;
-      state.loading = false;
-      state.error = null;
-    },
-    setChatUserError: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
     clearChatUser: (state) => {
       state.data = {
         members: [],
@@ -48,30 +56,25 @@ const currentChatSlice = createSlice({
       state.data.messages.push(action.payload);
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchChatById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchChatById.fulfilled, (state, action) => {
+        action.payload
+        state.data = action.payload;
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(fetchChatById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+  },
 });
 
-// Thunk for fetching chat by ID
-export const fetchChatById = (chatId) => async (dispatch) => {
-  try {
-    dispatch(startLoading());
-
-    const response = await axios.get(`${API_URL}/getChat`,{chatId}); // update with your actual backend route
-    console.log(response.data);
-    
-    // dispatch(setChatUser(response.data));
-  } catch (error) {
-    dispatch(
-      setChatUserError(error.response?.data?.message || "Something went wrong")
-    );
-  }
-};
-
-export const {
-  startLoading,
-  setChatUser,
-  setChatUserError,
-  clearChatUser,
-  addMessage,
-} = currentChatSlice.actions;
+export const { clearChatUser, addMessage } = currentChatSlice.actions;
 
 export default currentChatSlice.reducer;

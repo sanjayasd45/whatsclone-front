@@ -5,40 +5,31 @@ import { VscSearch } from "react-icons/vsc";
 import { RxCross2 } from "react-icons/rx";
 // import pic from "../../assets/imgs/pic.png";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { data, Link } from "react-router-dom";
 import { Dropdown, FilterOptions, NewChatOptions } from "../Components";
 import { useDispatch, useSelector } from "react-redux";
 import { useFindUserById } from "../../helper/helper.calculate";
 import { recentChatsData } from "../../APIs/chats.apis";
-import { fetchRecentChats, startLoading } from "../../store/slices/recentChats.slice";
+import { setChatUser, setChatUserError, startLoading } from "../../store/slices/recentChats.slice";
 import { toast } from "react-toastify";
+import { RecentChatsSkeleton } from "../../skeleton/Skeleton";
+
 
 export default function SidebarChats() {
 
   const dispatch = useDispatch()
-  const userData = JSON.parse(localStorage.getItem("userData"));
+  // const userData = JSON.parse(localStorage.getItem("userData"));
+  const userData = useSelector((state) => state.currentUser);
   const findUserById = useFindUserById();
+  let [recentChats1, setRecentChats] = useState([])
+  let [loading, setLoading] = useState(false)
 
   const user = useSelector((state) => state.newContact);
 
-  useEffect(() => {
-    async function fetchRecentChat() {
-      try{
-        if (userData?.phone_number) {
-          dispatch(startLoading())
-          const data =  await recentChatsData({number : userData.phone_number})
-          console.log(data);
-          
-          console.log("working");
-        }
-      }catch(error){
-        toast.error(`${error?.message ? error.message : "Unable to load Chats"}`, {theme:"colored"})
-      }
-    }
-    fetchRecentChat();
-  }, [userData]);
+  
   const recentChats = useSelector((state) => state.recentChats).data;
   console.log(recentChats);
+  // console.log(recentChats1);
   
   console.log("user from store ", user);
 
@@ -46,6 +37,28 @@ export default function SidebarChats() {
   const [chatOptions, setChatOptions] = useState(false);
 
   const [searchValue, setSearchValue] = useState("");
+  const data = async() => {
+    try{
+      setLoading(true)
+      console.log(userData.userData.phone_number);
+      const data  =  await recentChatsData({number : userData?.userData?.phone_number})
+      console.log(data);
+      setRecentChats(data?.recentChats)
+      dispatch(setChatUser(data?.recentChats))
+      setLoading(false)
+    }catch(error){
+      dispatch(setChatUserError())
+      toast.error(error?.message, {theme : "colored"})
+      setLoading(false)
+    }
+  }
+  useEffect(() => {
+    data()
+  }, [dispatch, userData?.userData?.number])
+  console.log(recentChats1);
+  
+
+
   const handleChange = (e) => {
     // e.preventDefault()
     setSearchValue(e.target.value);
@@ -96,9 +109,11 @@ export default function SidebarChats() {
           )}
         </form>
       </div>
-      <div className="sidebar-chats">
+      <div className="sidebar-chats hide-scrollbar">
+        {loading && <RecentChatsSkeleton />
+        }
         {recentChats
-          .filter((chat) =>
+          ?.filter((chat) =>
             chat.name.toLowerCase().includes(searchValue.toLowerCase())
           )
           .map((chat) => (

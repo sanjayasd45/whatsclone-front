@@ -8,23 +8,31 @@ import { useEffect, useState } from "react";
 import { useSocket } from "../../context/SocketContext.jsx";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchChatById } from "../../store/slices/CurrectChat.slice.js";
 
 export default function LiveChat() {
   const { id } = useParams();
   const dispatch = useDispatch()
 
-  const userData = JSON.parse(localStorage.getItem("userData"));
-  const newUser = useSelector((state)=> state.newContact)
+  // const userData = JSON.parse(localStorage.getItem("userData"));
+  const currentUser = useSelector((state) => state.currentUser)
+  // const newUser = useSelector((state)=> state.newContact)
   const currentChatUser = useSelector((state) => state.recentChats.selectedUser)
+  const currentChat = useSelector((state) => state.currentChat.data)
   console.log(currentChatUser);
-  
-
+  useEffect(() => {
+    if(id){
+      dispatch(fetchChatById(id))
+    }
+  }, [id, dispatch])
+  console.log(currentChat);
   const [receiver, setReceiver] = useState(null);
   const socketRef = useSocket();
   console.log("Socket:", socketRef);
 
   const [messages, setMessages] = useState([]);
 
+  console.log("current Chat user ", currentChatUser);
   
   const [msgValue, setMsgValue] = useState("");
   const handleMessageSubmit = (e) => {
@@ -34,13 +42,16 @@ export default function LiveChat() {
     const payload = {
       type: "message",
       content: msgValue,
-      sender : userData.phone_number, 
-      receiver: newUser?.phone_number,
+      sender : currentUser?.userData?.phone_number, 
+      receiver: currentChatUser?.other_user_number,
       chatId: id,
       timestamp: new Date().toISOString(),
     };
-
+    console.log(payload);
+    
 if (socketRef?.current?.readyState === WebSocket.OPEN) {
+  console.log("sending");
+  
       socketRef.current.send(JSON.stringify({
         type: "message",
         content: payload,

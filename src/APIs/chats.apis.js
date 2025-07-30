@@ -19,7 +19,10 @@ export const addChat = async({members}) => {
 }
 export const recentChatsData = async ({number}) => {
     try{
+        console.log(number);
         const response = await axios.post(`${API_URL}/getChats`, {number})
+        console.log(response);
+        
         return response.data;
     }catch(err){
         console.error("Error fetching chats data:", err);

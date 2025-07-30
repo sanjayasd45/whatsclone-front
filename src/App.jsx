@@ -7,25 +7,19 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter as Router,  Routes, Route,useNavigate } from "react-router-dom";
 import {  useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 function App() {
-  const value = localStorage.getItem("userData");
+  // const value = localStorage.getItem("userData");
+  const currentUser = useSelector((state)  => state.currenUser)
   const navigate = useNavigate();
-  const parsedValue = value ? JSON.parse(value) : null;
   useEffect(() => {
-    if(parsedValue && parsedValue.phone_number){
+    if(!currentUser?.userData?.phone_number){
       // toast.success('Welcome back!', { theme: 'colored' });
       navigate('/login');
     }
   },[])
-  // if (!value) {
-  //   return <Login />;
-  // }else{
-  //   const userData = JSON.parse(value);
-  //   if (!userData || !userData._id) {
-  //     return <Login />;
-  //   }
-  // }
+
 
 
   return (

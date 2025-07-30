@@ -5,17 +5,20 @@ import { Link, useNavigate } from "react-router-dom";
 import { signup } from "../../APIs/auth.apis";
 import { toast } from "react-toastify";
 import { validateForm } from "../../helper/checks.helper";
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Signup() {
-    const value = localStorage.getItem("userData");
+  const dispatch = useDispatch()
+    // const value = localStorage.getItem("userData");
     const navigate = useNavigate();
-    const parsedValue = value ? JSON.parse(value) : null;
-    // useEffect(() => {
-    //   if(parsedValue && parsedValue.phone_number){
-    //     toast.success('Your Are Already Loged In ', { theme: 'colored' });
-    //     navigate('/chats');
-    //   }
-    // },[])
+    // const parsedValue = value ? JSON.parse(value) : null;
+    const value = useSelector((state ) => state.currentUser)
+    useEffect(() => {
+      if(value?.userData?.phone_number){
+        toast.success('Your Are Already Loged In ', { theme: 'colored' });
+        navigate('/chats');
+      }
+    },[])
   const [formData, setFormData] = useState({
     name: "",
     number: "",
@@ -41,7 +44,8 @@ export default function Signup() {
     try {
       const response = await signup(formData);
       console.log("Response from signup:", response);
-      localStorage.setItem("userData", JSON.stringify(response?.user));
+      // localStorage.setItem("userData", JSON.stringify(response?.user));
+       dispatch(setUser({userData : formData}))
       setFormData({
         name: "",
         number: "",

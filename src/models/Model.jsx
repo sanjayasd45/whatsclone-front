@@ -18,7 +18,8 @@ export const NewContact = ({ setNewContact }) => {
 
   const navigate = useNavigate();
   const [user, setUser] = useState({});
-  const currentUser = JSON.parse(localStorage.getItem("userData"));
+  // const currentUser = JSON.parse(localStorage.getItem("userData"));
+  const currentUser = useSelector((state) => state.currentUser)?.userData
   const [number, setNumber] = useState("");
   const handleChange = (e) => {
     setNumber(e.target.value);

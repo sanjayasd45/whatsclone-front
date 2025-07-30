@@ -1,17 +1,17 @@
-// SocketContext.js
 import { createContext, useContext, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 const SocketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
   const socketRef = useRef(null);
 
-  useEffect(() => {
-    const value = localStorage.getItem("userData");
-    const parsedValue = value ? JSON.parse(value) : null;
+  // Get user data from Redux store
+  const user = useSelector((state) => state.currentUser); // adjust path as needed
 
-    if (!parsedValue?.phone_number) return;
+  useEffect(() => {
+    if (!user?.userData?.phone_number) return;
 
     socketRef.current = new WebSocket("ws://localhost:8000/ws/chat");
 
@@ -19,7 +19,7 @@ export const SocketProvider = ({ children }) => {
       console.log("Connected to WebSocket");
       const payload = {
         type: "connect",
-        user: parsedValue.phone_number,
+        user: user?.userData?.phone_number,
       };
       socketRef.current.send(JSON.stringify(payload));
     };
@@ -38,7 +38,7 @@ export const SocketProvider = ({ children }) => {
     return () => {
       socketRef.current?.close();
     };
-  }, []);
+  }, [user?.userData?.phone_number]);
 
   return (
     <SocketContext.Provider value={socketRef}>

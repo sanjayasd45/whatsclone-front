@@ -4,8 +4,11 @@ import logo from '../../assets/imgs/logo.png'
 import { Link, useNavigate, } from 'react-router-dom';
 import { login } from '../../APIs/auth.apis';
 import { toast } from 'react-toastify';
+import {useDispatch} from 'react-redux'
+import { setCurrentUser } from '../../store/slices/currentUser.slice';
 
 export default function Login() {
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     number: '',
@@ -26,8 +29,18 @@ export default function Login() {
     try{
       const response  = await login(formData)
       console.log("+++++",formData);
+      const data = {
+        name : response?.name,
+        user_id : response?._id,
+        profile_pic : response?.profile_pic,
+        phone_number : response?.phone_number
 
-      localStorage.setItem("userData", JSON.stringify(response))
+      }
+      console.log(data);
+      
+      dispatch(setCurrentUser(data))
+      // localStorage.setItem("userData", JSON.stringify(response))
+
       toast.success('Login successful!', { theme: 'colored' });
       navigate('/chats')
       setFormData({
